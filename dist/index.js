@@ -49,7 +49,7 @@ var CountryPicker = function (_Component) {
         return r1 !== r2;
       } });
     _this.state = {
-      cca2: props.cca2,
+      cca2: null,
       currentCountry: _this._getCountry(props.cca2),
       modalVisible: false,
       countries: ds.cloneWithRows(_this._orderCountryList())
@@ -223,12 +223,12 @@ var CountryPicker = function (_Component) {
             { style: styles.touchFlag },
             _react2.default.createElement(_reactNative.Image, {
               style: styles.imgStyle,
-              source: { uri: _CountryFlags2.default[this.state.cca2] } })
+              source: { uri: _CountryFlags2.default[this.state.cca2 || this.props.cca2] } })
           ),
           _react2.default.createElement(
             _reactNative.Text,
             { style: styles.countryText },
-            _lodash2.default.truncate(this.state.currentCountry, { length: 18 }) || 'Tap to select'
+            _lodash2.default.truncate(_lodash2.default.get(this._getCountry(this.state.cca2 || this.props.cca2), 'name.common'), { length: 18 }) || 'Tap to select'
           )
         ),
         _react2.default.createElement(
