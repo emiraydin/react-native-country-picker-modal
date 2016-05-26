@@ -30,15 +30,10 @@ class CountryPicker extends Component {
     this.state = {
       cca2: props.cca2,
       currentCountry: this._getCountry(props.cca2),
-      modalVisible: false,
       countries: ds.cloneWithRows(this._orderCountryList())
     };
     this.letters = _.range('A'.charCodeAt(0), 'Z'.charCodeAt(0) + 1).map(n => String.fromCharCode(n).substr(0));
     this.lettersPositions = {};
-  }
-
-  componentDidMount() {
-    this.setState({modalVisible: this.props.modalVisible || false})
   }
 
   _getCountry(cca2) {
@@ -67,10 +62,7 @@ class CountryPicker extends Component {
 
   _onSelect(country) {
 
-    this.setState({
-      modalVisible: false,
-      cca2: country.cca2
-    });
+    this.setState({ cca2: country.cca2 });
 
     if (this.props.onChange) {
       this.props.onChange({
@@ -159,7 +151,7 @@ class CountryPicker extends Component {
               source={{uri: CountryFlags[this.state.cca2]}}/>
           </View>
         </TouchableOpacity>
-        <Modal visible={this.state.modalVisible}>
+        <Modal visible={this.props.modalVisible}>
           <ListView
             contentContainerStyle={styles.contentContainer}
             ref={(scrollView) => { this._scrollView = scrollView; }}
