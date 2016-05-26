@@ -30,6 +30,7 @@ class CountryPicker extends Component {
     this.state = {
       cca2: props.cca2,
       currentCountry: this._getCountry(props.cca2),
+      modalVisible: false,
       countries: ds.cloneWithRows(this._orderCountryList())
     };
     this.letters = _.range('A'.charCodeAt(0), 'Z'.charCodeAt(0) + 1).map(n => String.fromCharCode(n).substr(0));
@@ -62,7 +63,10 @@ class CountryPicker extends Component {
 
   _onSelect(country) {
 
-    this.setState({ cca2: country.cca2 });
+    this.setState({
+      modalVisible: false,
+      cca2: country.cca2
+    });
 
     if (this.props.onChange) {
       this.props.onChange({
@@ -143,15 +147,16 @@ class CountryPicker extends Component {
     return (
       <View>
         <TouchableOpacity
-          onPress={this.showModal.bind(this)}
+          onPress={()=> this.setState({modalVisible: true})}
           activeOpacity={0.7}>
           <View style={styles.touchFlag}>
             <Image
               style={styles.imgStyle}
               source={{uri: CountryFlags[this.state.cca2]}}/>
+            <Text style={styles.countryText}>{this.state.currentCountry}</Text>
           </View>
         </TouchableOpacity>
-        <Modal visible={this.props.modalVisible}>
+        <Modal visible={this.state.modalVisible}>
           <ListView
             contentContainerStyle={styles.contentContainer}
             ref={(scrollView) => { this._scrollView = scrollView; }}
@@ -176,6 +181,7 @@ var styles = StyleSheet.create({
     padding: Ratio.getPercent(2)
   },
   touchFlag: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     margin: Ratio.getPercent(0.5),
@@ -189,6 +195,9 @@ var styles = StyleSheet.create({
     borderWidth: 1 / PixelRatio.get(),
     borderColor: '#eee',
     opacity: 0.8
+  },
+  countryText: {
+    marginLeft: 10
   },
   currentCountry: {
     backgroundColor: '#fff',
