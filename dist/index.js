@@ -73,7 +73,6 @@ var CountryPicker = function (_Component) {
     value: function _getCountryName(country) {
       var translation = this.props.translation || 'eng';
       return country.translations[translation] && country.translations[translation].common || country.name.common;
-      xrg;
     }
   }, {
     key: '_orderCountryList',
@@ -97,7 +96,8 @@ var CountryPicker = function (_Component) {
 
       this.setState({
         modalVisible: false,
-        cca2: country.cca2
+        cca2: country.cca2,
+        currentCountry: this._getCountryName(country)
       });
 
       if (this.props.onChange) {
@@ -216,6 +216,7 @@ var CountryPicker = function (_Component) {
             onPress: function onPress() {
               return _this6.setState({ modalVisible: true });
             },
+            style: styles.touchableCountry,
             activeOpacity: 0.7 },
           _react2.default.createElement(
             _reactNative.View,
@@ -223,6 +224,11 @@ var CountryPicker = function (_Component) {
             _react2.default.createElement(_reactNative.Image, {
               style: styles.imgStyle,
               source: { uri: _CountryFlags2.default[this.state.cca2] } })
+          ),
+          _react2.default.createElement(
+            _reactNative.Text,
+            { style: styles.countryText },
+            _lodash2.default.truncate(this.state.currentCountry, { length: 18 }) || 'Tap to select'
           )
         ),
         _react2.default.createElement(
@@ -261,6 +267,10 @@ var styles = _reactNative.StyleSheet.create({
     backgroundColor: '#fff',
     padding: _Ratio2.default.getPercent(2)
   },
+  touchableCountry: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   touchFlag: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -269,12 +279,15 @@ var styles = _reactNative.StyleSheet.create({
     height: _Ratio2.default.getHeightPercent(2.5)
   },
   imgStyle: {
-    resizeMode: 'stretch',
+    resizeMode: 'contain',
     width: 25,
     height: 19,
     borderWidth: 1 / _reactNative.PixelRatio.get(),
     borderColor: '#eee',
     opacity: 0.8
+  },
+  countryText: {
+    marginLeft: 8
   },
   currentCountry: {
     backgroundColor: '#fff',

@@ -65,7 +65,8 @@ class CountryPicker extends Component {
 
     this.setState({
       modalVisible: false,
-      cca2: country.cca2
+      cca2: country.cca2,
+      currentCountry: this._getCountryName(country)
     });
 
     if (this.props.onChange) {
@@ -148,13 +149,14 @@ class CountryPicker extends Component {
       <View>
         <TouchableOpacity
           onPress={()=> this.setState({modalVisible: true})}
+          style={styles.touchableCountry}
           activeOpacity={0.7}>
           <View style={styles.touchFlag}>
             <Image
               style={styles.imgStyle}
               source={{uri: CountryFlags[this.state.cca2]}}/>
-            <Text style={styles.countryText}>{this.state.currentCountry}</Text>
           </View>
+          <Text style={styles.countryText}>{_.truncate(this.state.currentCountry, {length: 18}) || 'Tap to select'}</Text>
         </TouchableOpacity>
         <Modal visible={this.state.modalVisible}>
           <ListView
@@ -180,8 +182,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: Ratio.getPercent(2)
   },
-  touchFlag: {
+  touchableCountry: {
     flexDirection: 'row',
+    alignItems: 'center'
+  },
+  touchFlag: {
     alignItems: 'center',
     justifyContent: 'center',
     margin: Ratio.getPercent(0.5),
@@ -197,7 +202,7 @@ var styles = StyleSheet.create({
     opacity: 0.8
   },
   countryText: {
-    marginLeft: 10
+    marginLeft: 8
   },
   currentCountry: {
     backgroundColor: '#fff',
