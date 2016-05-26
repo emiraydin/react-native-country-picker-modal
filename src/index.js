@@ -28,7 +28,7 @@ class CountryPicker extends Component {
     super(props);
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      cca2: props.cca2,
+      cca2: null,
       currentCountry: this._getCountry(props.cca2),
       modalVisible: false,
       countries: ds.cloneWithRows(this._orderCountryList())
@@ -154,9 +154,12 @@ class CountryPicker extends Component {
           <View style={styles.touchFlag}>
             <Image
               style={styles.imgStyle}
-              source={{uri: CountryFlags[this.state.cca2]}}/>
+              source={{uri: CountryFlags[this.state.cca2 || this.props.cca2]}}/>
           </View>
-          <Text style={styles.countryText}>{_.truncate(this.state.currentCountry, {length: 18}) || 'Tap to select'}</Text>
+          <Text style={styles.countryText}>
+            {_.truncate(_.get(this._getCountry(this.state.cca2 || this.props.cca2), 'name.common'), {length: 18})
+            || 'Tap to select'}
+          </Text>
         </TouchableOpacity>
         <Modal visible={this.state.modalVisible}>
           <ListView
