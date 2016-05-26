@@ -61,6 +61,18 @@ class CountryPicker extends Component {
       .sortBy(n => _.deburr(this._getCountryName(n))).value();
   }
 
+  showModal() {
+    this.setState({modalVisible: true}
+  }
+
+  hideModal() {
+    this.setState({modalVisible: false}
+  }
+
+  toggleModal() {
+    this.setState({modalVisible: !this.state.modalVisible}
+  }
+
   _onSelect(country) {
 
     this.setState({
@@ -147,7 +159,7 @@ class CountryPicker extends Component {
     return (
       <View>
         <TouchableOpacity
-          onPress={()=> this.setState({modalVisible: true})}
+          onPress={this.showModal.bind(this)}
           activeOpacity={0.7}>
           <View style={styles.touchFlag}>
             <Image
