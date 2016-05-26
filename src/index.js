@@ -37,6 +37,10 @@ class CountryPicker extends Component {
     this.lettersPositions = {};
   }
 
+  componentDidMount() {
+    this.setState({modalVisible: this.props.modalVisible || false})
+  }
+
   _getCountry(cca2) {
     return _.find(countries, {
       cca2: cca2
@@ -59,18 +63,6 @@ class CountryPicker extends Component {
         };
       })
       .sortBy(n => _.deburr(this._getCountryName(n))).value();
-  }
-
-  showModal() {
-    this.setState({modalVisible: true}
-  }
-
-  hideModal() {
-    this.setState({modalVisible: false}
-  }
-
-  toggleModal() {
-    this.setState({modalVisible: !this.state.modalVisible}
   }
 
   _onSelect(country) {
