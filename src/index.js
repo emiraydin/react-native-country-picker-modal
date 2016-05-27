@@ -5,8 +5,7 @@
  * @author xcarpentier<contact@xaviercarpentier.com>
  */
 
-import React, { Component } from 'react';
-import {
+import React, {
   StyleSheet,
   View,
   PixelRatio,
@@ -14,6 +13,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Component,
   Text,
   ListView
 } from 'react-native';
